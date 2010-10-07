@@ -1,0 +1,15 @@
+Static analyzer for Diffusion Equation
+
+1. Compilation
+
+g++ -o out *.cpp */*.cpp
+The binary file is in "out"
+
+Simple form for cgi server is in folder "forCGIServer"
+\\ 1. Compilation
+
+
+2. Debug
+	1. File "main.h"
+		All after text "// debug moments"
+\\ 2. Debug
