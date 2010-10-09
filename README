@@ -4,8 +4,6 @@ Static analyzer for Diffusion Equation
 
 g++ -o out *.cpp */*.cpp
 The binary file is in "out"
-
-Simple form for cgi server is in folder "forCGIServer"
 \\ 1. Compilation
 
 

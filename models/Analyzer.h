@@ -7,8 +7,6 @@
 #ifndef _ANALYZER_H
 #define	_ANALYZER_H
 
-#include "../main.h"
-
 class Analyzer {
 	public:
 		Analyzer();

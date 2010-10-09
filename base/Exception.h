@@ -7,19 +7,18 @@
 #ifndef _EXCEPTION_H
 #define	_EXCEPTION_H
 
-#include "../main.h"
-
+#include <string>
 #include <exception>
 #include <execinfo.h>
 
-class Exception : public exception {
+class Exception : public std::exception {
 	public:
-		string message;
+		std::string message;
 		char** stack;
-		size_t size;
+		std::size_t size;
 		static int max;
 		
-		Exception(string message = "") throw();
+		Exception(std::string message = "") throw();
 		Exception(const Exception& orig);
 		virtual ~Exception() throw();
 };

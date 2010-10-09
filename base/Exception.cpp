@@ -22,7 +22,7 @@ int Exception::max = 1;
   * 
   * @link http://www.gnu.org/s/libc/manual/html_node/Backtraces.html
   */
-Exception::Exception(string message) throw() {
+Exception::Exception(std::string message) throw() {
 	this->message = message;
 	
 	void* array[max];
@@ -31,8 +31,5 @@ Exception::Exception(string message) throw() {
 	// free(array);
 }
 
-Exception::Exception(const Exception& orig) {
-}
-
-Exception::~Exception() throw() {
-}
+Exception::Exception(const Exception& orig) {}
+Exception::~Exception() throw() {}

@@ -14,12 +14,6 @@
 // standart libraries
 #include <stdlib.h>
 #include <stdio.h>
-#include <string.h>
-#include <sstream>
-#include <iostream>
-#include <string>
-#include <vector>
-#include <map>
 
 using namespace std;
 

@@ -7,8 +7,6 @@
 #ifndef _COLORING_H
 #	define _COLORING_H
 
-#include "../main.h"
-
 class Coloring {
 	public:
 		Coloring();
