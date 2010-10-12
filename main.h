@@ -18,6 +18,10 @@
 using namespace std;
 
 // exception model
+#ifdef _WIN32
+#include "base/ExceptionWin.h"
+#else
 #include "base/Exception.h"
+#endif
 
 #endif	/* _MAIN_H */
