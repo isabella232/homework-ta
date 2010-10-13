@@ -17,7 +17,7 @@
 
 using namespace std;
 
-// exception model
+// cross platform
 #ifdef _WIN32
 #include "base/ExceptionWin.h"
 #else

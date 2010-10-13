@@ -21,7 +21,7 @@ class Coloring {
 		static const int colorYellow 	= 33;
 		static const int colorBlue 	= 34;
 		static const int colorPink 	= 35;
-		static const int colorCyan 	= 36;
+		static const int colorTeal 	= 36;
 		static const int colorWhite 	= 37;
 		
 		int printf(const int color, const bool bold, const char* formatedString, ...);

@@ -6,9 +6,6 @@
 
 #include "Diff.h"
 
-Diff::Diff(const Diff& orig) {}
-Diff::~Diff() {}
-
 /**
  * Set default options
  */
@@ -16,6 +13,9 @@ Diff::Diff() {
 	this->beforeMatch = "|";
 	this->afterMatch = "|";
 }
+
+Diff::Diff(const Diff& orig) {}
+Diff::~Diff() {}
 
 /**
  * Count Levenshtein length/distance

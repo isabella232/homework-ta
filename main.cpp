@@ -7,7 +7,13 @@
 #include "main.h"
 
 // my models
+// cross platform
+#ifdef _WIN32
+#include "models/ColoringWin.h"
+#else
 #include "models/Coloring.h"
+#endif
+// standart
 #include "models/Diff.h"
 #include "models/Analyzer.h"
 
@@ -25,7 +31,9 @@ int main(int argc, char** argv) {
 	
 	// Coloring
 	Coloring* c = new Coloring();
-	c->printf(Coloring::colorBlue, true, "%s %s is here?\n", "Green", "or Red");
+	c->printf(FOREGROUND_RED, 		false, "It some more this franch buns\n");
+	c->printf(FOREGROUND_BLUE, 		false, "It some more this franch buns\n");
+	c->printf(FOREGROUND_GREEN, 		false, "It some more this franch buns\n");
 	delete c;
 	
 	return EXIT_SUCCESS;
