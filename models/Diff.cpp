@@ -10,8 +10,10 @@
  * Set default options
  */
 Diff::Diff() {
-	this->beforeMatch = "|";
-	this->afterMatch = "|";
+	beforeMatch = '|';
+	afterMatch = '|';
+	defaultColor = Coloring::colorRed;
+	isBold = true;
 }
 
 Diff::Diff(const Diff& orig) {}
@@ -117,11 +119,12 @@ Diff::LevenshteinVerboseReturn Diff::LevenshteinVerbose(const std::string& src, 
 	} while ((i != 0) && (j != 0));
 	
 	// revert string
-	std::string routeRev;
-	for (i = route.size(); i >= 0; --i) {
-		routeRev += route[i];
+	std::string routeRev = "";
+	std::string::reverse_iterator iter = route.rbegin();
+	while (iter != route.rend()) {
+		routeRev += *iter++;
 	}
-
+	
 	Diff::LevenshteinVerboseReturn result;
 	result["distance"] = D[srcLength][dstLength];
 	result["route"] = routeRev;
@@ -131,21 +134,22 @@ Diff::LevenshteinVerboseReturn Diff::LevenshteinVerbose(const std::string& src, 
 
 
 /**
- * Highlight difference between two phrases
+ * Difference between two phrases
  */
-std::string Diff::highLight(const std::string& src, const std::string& dst) {
-	Diff::LevenshteinVerboseReturn levenshtein = this->LevenshteinVerbose(src, dst);
+std::string Diff::get(const std::string& src, const std::string& dst) {
+	Diff::LevenshteinVerboseReturn levenshtein = LevenshteinVerbose(src, dst);
 	std::string dstHighLighted = dst;
 	std::string levenshteinRoute = levenshtein["route"];
 	unsigned int levenshteinRouteLen = levenshteinRoute.size();
 
-	unsigned int begin = -1; // default: negative
 	bool last = false;
-	unsigned int l, offset = 0, beginOffset = 0;
 	char c;
-	for (unsigned int i = 0; i < levenshteinRouteLen; i++) {
-		c = levenshteinRoute[i];
-
+	int begin = -1;
+	unsigned int l = 0, offset = 0, beginOffset = 0, i = 0;
+	std::string::iterator iter = levenshteinRoute.begin();
+	while (iter != levenshteinRoute.end()) {
+		c = *iter++;
+		
 		if (c == 'D') {
 			beginOffset--;
 			continue;
@@ -158,12 +162,47 @@ std::string Diff::highLight(const std::string& src, const std::string& dst) {
 			if ((i+1) == levenshteinRouteLen && c != 'M') last = true;
 
 			dstHighLighted = 	dstHighLighted.substr(0, begin + offset) +
-						this->beforeMatch + dstHighLighted.substr(begin + offset, i - begin + (last ? 1 : 0)) + this->afterMatch +
+						beforeMatch + dstHighLighted.substr(begin + offset, i - begin + (last ? 1 : 0)) + afterMatch +
 						dstHighLighted.substr(i + offset + (last ? 1 : 0), l);
 
-			offset += this->beforeMatch.size() +this->afterMatch.size();
+			offset += 2;
 			begin = -1;
 		}
+		
+		i++;
 	}
 	return dstHighLighted;
+}
+
+/**
+ * Print highligh
+ * 
+ * @TODO
+ */
+void Diff::highLight(const std::string& src, const std::string& dst) {
+	std::string newDst = get(src, dst);
+	int begin = -1, i = 0;
+	unsigned int offset = 0;
+	std::string::iterator iter = newDst.begin();
+	char c;
+	
+	while (iter != newDst.end()) {
+		c = *iter++;
+		
+		if (c == beforeMatch && begin < 0) {
+			begin = i;
+		} else if (c == afterMatch && begin >= 0) {
+			::printf(newDst.substr(offset, begin - offset).c_str());
+			printf(defaultColor, isBold, newDst.substr(begin + 1, i - begin - 1).c_str()); // colored part
+			offset = i + 1;
+			begin = -1;
+		}
+		
+		i++;
+	}
+	// afterMatch - not at the end
+	offset -= 1;
+	if (offset != i) {
+		::printf(newDst.substr(offset + 1, newDst.size() - 1).c_str());
+	}
 }
