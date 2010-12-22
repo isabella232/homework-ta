@@ -12,15 +12,20 @@
 #include <execinfo.h>
 
 class Exception : public std::exception {
-	public:
+	protected:
 		std::string message;
+		int code;
+	public:
 		char** stack;
 		std::size_t size;
 		static int max;
 		
-		Exception(std::string message = "") throw();
+		Exception(const std::string message = "", const int code = 0) throw();
 		Exception(const Exception& orig);
 		virtual ~Exception() throw();
+		
+		std::string getMessage();
+		int getCode();
 };
 
 #endif /* _EXCEPTION_H */

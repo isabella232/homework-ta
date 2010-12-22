@@ -14,6 +14,7 @@
 // standart libraries
 #include <stdlib.h>
 #include <stdio.h>
+#include <cstring>
 
 using namespace std;
 

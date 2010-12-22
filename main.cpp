@@ -21,15 +21,24 @@
  * Main
  */
 int main(int argc, char** argv) {
-	// Words difference
-	Diff* d = new Diff();
-	const string src = "hheckout";
-	const string dst = "checvour";
-	unsigned int distance = d->Levenshtein(src, dst);
-	printf("Difference between %s and %s is: %u\n", src.c_str(), dst.c_str(), distance);
-	d->highLight(src, dst);
-	printf("\n");
-	delete d;
+	Coloring* c = new Coloring();
+	if (argc == 1 || strlen(argv[1]) == 0) {
+		c->printf(Coloring::colorRed, false, "String is empty or not set\n");
+	} else {
+		Analyzer* a = new Analyzer(argv[1]);
+		c->printf(Coloring::colorGreen, false, "String to check ");
+		c->printf(Coloring::colorGreen, true, argv[1]);
+		printf("\n");
+		try {
+			a->check();
+			c->printf(Coloring::colorGreen, false, "All ok!\n");
+		} catch (Exception* exp) {
+			const char* error = (*exp).getMessage().c_str();
+			c->printf(Coloring::colorRed, false, "Error occured: %s: at symbol %u\n", error, (*exp).getCode());
+		}
+		delete a;
+	}
+	delete c;
 	
 	return EXIT_SUCCESS;
 }

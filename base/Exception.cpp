@@ -22,8 +22,9 @@ int Exception::max = 1;
   * 
   * @link http://www.gnu.org/s/libc/manual/html_node/Backtraces.html
   */
-Exception::Exception(std::string message) throw() {
+Exception::Exception(const std::string message, const int code) throw() {
 	this->message = message;
+	this->code = code;
 	
 	void* array[max];
 	size = backtrace(array, max);
@@ -33,3 +34,17 @@ Exception::Exception(std::string message) throw() {
 
 Exception::Exception(const Exception& orig) {}
 Exception::~Exception() throw() {}
+
+/**
+ * Get message
+ */
+std::string Exception::getMessage() {
+	return message;
+}
+
+/**
+ * Get code
+ */
+int Exception::getCode() {
+	return code;
+}
