@@ -51,7 +51,12 @@ bool Analyzer::checkByExpression(const char* expression, const bool noTrows) {
  * Check by static string
  */
 bool Analyzer::checkByStaticString(const char* string, const bool noTrows) {
-	// and of string
+	if (string == NULL) {
+		if (currentPosition == length) return true;
+		throw new Exception("Must be end of string", currentPosition);
+	}
+	
+	// end of string
 	if (currentPosition >= length) {
 		char buffer[12];
 		
@@ -166,6 +171,7 @@ void Analyzer::checkForReal() {
  */
 void Analyzer::checkForEqually() {
 	checkByStaticString("=0");
+	checkByStaticString();
 }
 
 /**
@@ -185,7 +191,12 @@ void Analyzer::printHighLightedError(unsigned int offset) {
 	} else {
 		c->printf(Coloring::colorRed, true, "_");
 	}
-	c->printf(Coloring::colorGreen, true, "%s", subjectAsString.substr(currentPosition+1, subjectAsString.length()).c_str());
+	// if all right, but something is ommited
+	if (subjectAsString.length() > currentPosition) {
+		c->printf(Coloring::colorGreen, true, "%s", subjectAsString.substr(currentPosition+1, subjectAsString.length()).c_str());
+	} else {
+		c->printf(Coloring::colorRed, true, "_");
+	}
 	delete c;
 }
 

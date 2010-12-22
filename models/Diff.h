@@ -12,7 +12,12 @@
 #include <map>
 #include <stdio.h>
 
+// cross platform coloring output
+#ifdef _WIN32
+#include "ColoringWin.h"
+#else
 #include "Coloring.h"
+#endif
 
 class Diff : public Coloring {
 	public:

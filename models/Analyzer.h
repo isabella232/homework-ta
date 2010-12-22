@@ -33,7 +33,7 @@ class Analyzer {
 		void checkForEqually();
 		void checkForVar();
 		bool checkByExpression(const char* expression, const bool noTrows = false);
-		bool checkByStaticString(const char* string, const bool noTrows = false);
+		bool checkByStaticString(const char* string = NULL, const bool noTrows = false);
 		void seek();
 		
 		/**

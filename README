@@ -2,8 +2,8 @@ Static analyzer for Diffusion Equation
 
 1. Compilation
 
-*nix: 	g++ -o out base/Exception.cpp main.cpp models/Analyzer.cpp models/Coloring.cpp models/Diff.cpp
-Windows: 	g++ -o out.exe base\ExceptionWin.cpp main.cpp models\Analyzer.cpp models\ColoringWin.cpp models\Diff.cpp
+*nix: 	g++ -o dists/out base/Exception.cpp main.cpp models/Analyzer.cpp models/Coloring.cpp models/Diff.cpp
+Windows: 	g++ -o dists\out.exe base\ExceptionWin.cpp main.cpp models\Analyzer.cpp models\ColoringWin.cpp models\Diff.cpp
 The binary file is in "out"
 \\ 1. Compilation
 
