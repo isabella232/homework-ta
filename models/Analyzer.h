@@ -11,11 +11,18 @@
 #include <cstring>
 #include <string>
 
-// cross platform
+// cross platform exceptions
 #ifdef _WIN32
 #include "../base/ExceptionWin.h"
 #else
 #include "../base/Exception.h"
+#endif
+
+// cross platform coloring output
+#ifdef _WIN32
+#include "ColoringWin.h"
+#else
+#include "Coloring.h"
 #endif
 
 class Analyzer {
@@ -23,11 +30,11 @@ class Analyzer {
 		void checkForFirstTerm();
 		void checkForSecondTerm();
 		void checkForReal();
-		void checkForSign();
 		void checkForEqually();
 		void checkForVar();
-		bool checkByExpression(const char* expression);
+		bool checkByExpression(const char* expression, const bool noTrows = false);
 		bool checkByStaticString(const char* string, const bool noTrows = false);
+		void seek();
 		
 		/**
 		 * Subject to check
@@ -41,12 +48,24 @@ class Analyzer {
 		 * Current pos in subject
 		 */
 		int currentPosition;
+		/**
+		 * Max nested level for while() {}
+		 * 
+		 * Basicly for checkByReal()
+		 */
+		static unsigned int const MAX_NESTED_LEVEL = 100;
 	public:
 		Analyzer(char* subject);
 		Analyzer(const Analyzer& orig);
 		virtual ~Analyzer();
 		
 		void check();
+		void printHighLightedError(unsigned int offset);
+		
+		/**
+		 * Max subject length
+		 */
+		static unsigned int const SUBJECT_LIMIT = 1000;
 };
 
 #endif /* _ANALYZER_H */

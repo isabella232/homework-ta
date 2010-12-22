@@ -6,25 +6,22 @@
 
 #include "main.h"
 
-// my models
-// cross platform
-#ifdef _WIN32
-#include "models/ColoringWin.h"
-#else
-#include "models/Coloring.h"
-#endif
-// standart
-#include "models/Diff.h"
-#include "models/Analyzer.h"
-
 /**
  * Main
  */
 int main(int argc, char** argv) {
 	Coloring* c = new Coloring();
+	
+	// check for empty string
 	if (argc == 1 || strlen(argv[1]) == 0) {
 		c->printf(Coloring::colorRed, false, "String is empty or not set\n");
-	} else {
+	}
+	// check for too long string
+	else if (strlen(argv[1]) > Analyzer::SUBJECT_LIMIT) {
+		c->printf(Coloring::colorRed, false, "Length of input sting can`t be more then %u symbols\n", Analyzer::SUBJECT_LIMIT);
+	}
+	// analyze input string
+	else {
 		Analyzer* a = new Analyzer(argv[1]);
 		c->printf(Coloring::colorGreen, false, "String to check ");
 		c->printf(Coloring::colorGreen, true, argv[1]);
@@ -32,9 +29,13 @@ int main(int argc, char** argv) {
 		try {
 			a->check();
 			c->printf(Coloring::colorGreen, false, "All ok!\n");
-		} catch (Exception* exp) {
-			const char* error = (*exp).getMessage().c_str();
-			c->printf(Coloring::colorRed, false, "Error occured: %s: at symbol %u\n", error, (*exp).getCode());
+		} catch (Exception* exc) {
+			const char* error = (*exc).getMessage().c_str();
+			const int code = (*exc).getCode();
+			c->printf(Coloring::colorRed, false, "Error occured: %s: at symbol %u\n", error, code+1);
+			c->printf(Coloring::colorRed, false, "Human view of error: ");
+			a->printHighLightedError(code);
+			printf("\n");
 		}
 		delete a;
 	}

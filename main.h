@@ -18,11 +18,22 @@
 
 using namespace std;
 
-// cross platform
+// cross platform exceptions
 #ifdef _WIN32
 #include "base/ExceptionWin.h"
 #else
 #include "base/Exception.h"
 #endif
+
+// cross platform coloring output
+#ifdef _WIN32
+#include "models/ColoringWin.h"
+#else
+#include "models/Coloring.h"
+#endif
+
+// standart my models
+#include "models/Diff.h"
+#include "models/Analyzer.h"
 
 #endif	/* _MAIN_H */

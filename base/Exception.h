@@ -15,11 +15,11 @@ class Exception : public std::exception {
 	protected:
 		std::string message;
 		int code;
-	public:
+		
 		char** stack;
 		std::size_t size;
 		static int max;
-		
+	public:
 		Exception(const std::string message = "", const int code = 0) throw();
 		Exception(const Exception& orig);
 		virtual ~Exception() throw();
