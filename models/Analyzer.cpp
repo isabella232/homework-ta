@@ -30,13 +30,15 @@ bool Analyzer::checkByExpression(const char* expression, const bool noTrows) {
 	std::string stack = "";
 	size_t exprLength = strlen(expression);
 	bool beginWrite = true;
+	bool isThrows = false;
 	
 	while (exprLength--) {
 		if (beginWrite && (*expression != '|')) {
 			stack += *expression;
 		}
 		if (beginWrite && (*expression == '|' || exprLength == 0)) {
-			if (checkByStaticString(stack.c_str(), noTrows)) {
+			isThrows = (exprLength == 0 && !noTrows ? true : false);
+			if (checkByStaticString(stack.c_str(), !isThrows)) {
 				return true;
 			}
 			stack = "";
@@ -143,19 +145,18 @@ void Analyzer::checkForReal() {
 		if (checkByStaticString(".", true)) {
 			level = 0;
 			unsigned int subLevel = 0;
-			while (checkByExpression("0", true)) {
+			while (checkByExpression("1|2|3|4|5|6|7|8|9", true)) {
+				if (++level > Analyzer::MAX_NESTED_LEVEL) throw new Exception("Max nested level, after point, exclude '0', is reached", currentPosition);
+			}
+			level = 0;
+			while (checkByStaticString("0", true)) {
 				subLevel = 0;
 				while (checkByExpression("1|2|3|4|5|6|7|8|9", true)) {
 					if (++subLevel > Analyzer::MAX_NESTED_LEVEL) throw new Exception("Max nested level, after point, after '0', is reached", currentPosition);
 				}
 				if (++level > Analyzer::MAX_NESTED_LEVEL) throw new Exception("Max nested level, after point, is reached", currentPosition);
 			}
-			if (level == 0) {
-				while (checkByExpression("1|2|3|4|5|6|7|8|9", true)) {
-					if (++level > Analyzer::MAX_NESTED_LEVEL) throw new Exception("Max nested level, after point, exclude '0', is reached", currentPosition);
-				}
-			}
-			if (level == 0) {
+			if (level == 0 || subLevel == 0) {
 				checkByExpression("1|2|3|4|5|6|7|8|9");
 			}
 		}
