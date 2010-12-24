@@ -55,7 +55,12 @@ bool Analyzer::checkByExpression(const char* expression, const bool noTrows) {
 bool Analyzer::checkByStaticString(const char* string, const bool noTrows) {
 	if (string == NULL) {
 		if (currentPosition == length) return true;
-		throw new Exception("Must be end of string", currentPosition);
+		
+		if (noTrows) {
+			return false;
+		} else {
+			throw new Exception("Must be end of string", currentPosition);
+		}
 	}
 	
 	// end of string
