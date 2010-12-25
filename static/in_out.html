@@ -1,0 +1,92 @@
+<html>
+	<title>In / Out [static language analyzer for "Heat equation"]</title>
+	<meta http-equiv="Content-type" content="text/html; charset=utf8" />
+	<style type="text/css">
+		table#right tr td {color: green;}
+		table#wrong tr td {color: red;}
+		table#wrong tr td span.subject {color: green;}
+		table#wrong tr td span.subject span.error {color: red; font-weight: bold;}
+		p {font-weight: bold;}
+	</style>
+	
+	<body>
+		<table>
+			<p>
+				Фразы типа:
+				"String to chech ..."
+				<br />
+				Не копировал, т.к. это просто повтор строки
+			</p>
+			
+			<h1>Правильные</h1>
+			<table id="right">
+				<tr>
+					<td>Вход</td>
+					<td>Выход</td>
+				</tr>
+				<tr>
+					<td>d^2T/dx^2-3.3405*(dT/dt)=0</td>
+					<td>All ok!</td>
+				</tr>
+				<tr>
+					<td>d^2T/dx^2-3.3405*dT/dt=0"</td>
+					<td>All ok!</td>
+				</tr>
+				<tr>
+					<td>d^2T/dx^2=0</td>
+					<td>All ok!</td>
+				</tr>
+				<tr>
+					<td>d^2T/dx^2-dT/dt=0</td>
+					<td>All ok!</td>
+				</tr>
+				<tr>
+					<td>(d^2/dx^2)T-0*dT/dt=0</td>
+					<td>All ok!</td>
+				</tr>
+			</table>
+			<h1>Не правильные</h1>
+			<table id="wrong">
+				<tr>
+					<td>Вход</td>
+					<td>Выход</td>
+				</tr>
+				<tr>
+					<td>d^2T-dT/dt=0</td>
+					<td>
+						Error occured: Must be '/': at symbol 5<br />
+						Human view of error: <span class="subject">d^2T<span class="error">-</span>dT/dt=0</span>
+					</td>
+				</tr>
+				<tr>
+					<td>d^2T/dx^2-1.5=0</td>
+					<td>
+						Error occured: Must be '*': at symbol 14<br />
+						Human view of error: <span class="subject">d^2T/dx^2-1.5<span class="error">=</span>0</span>
+					</td>
+				</tr>
+				<tr>
+					<td>d2T/d^2-8dT/dt=0</td>
+					<td>
+						Error occured: Must be '^': at symbol 2<br />
+						Human view of error: <span class="subject">d<span class="error">2</span>T/d^2-8dT/dt=0</span>
+					</td>
+				</tr>
+				<tr>
+					<td>d^2T/dx^2--3.5*(dT/dt)=0</td>
+					<td>
+						Error occured: Must be 'd': at symbol 11<br />
+						Human view of error: <span class="subject">d^2T/dx^2-<span class="error">-</span>3.5*(dT/dt)=0</span>
+					</td>
+				</tr>
+				<tr>
+					<td>d^2T/dx^2-3.5*(dT/dt)+a*b=0</td>
+					<td>
+						Error occured: Must be '=': at symbol 22<br />
+						Human view of error: <span class="subject">d^2T/dx^2-3.5*(dT/dt)<span class="error">+</span>a*b=0</span>
+					</td>
+				</tr>
+			</table>
+		</table>
+	</body>
+</html>

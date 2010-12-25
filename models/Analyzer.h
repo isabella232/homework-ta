@@ -34,7 +34,7 @@ class Analyzer {
 		void checkForVar();
 		bool checkByExpression(const char* expression, const bool noTrows = false);
 		bool checkByStaticString(const char* string = NULL, const bool noTrows = false);
-		void seek();
+		void seek(int offset = 1);
 		
 		/**
 		 * Subject to check

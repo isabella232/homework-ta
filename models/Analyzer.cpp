@@ -18,9 +18,13 @@ Analyzer::~Analyzer() {}
 /**
  * Seek string
  */
-void Analyzer::seek() {
-	subject++;
-	currentPosition++;
+void Analyzer::seek(int offset) {
+	if ((currentPosition + offset < 0) || (currentPosition + offset > length)) {
+		throw new Exception("Out of range", currentPosition);
+	}
+	
+	subject += offset;
+	currentPosition += offset;
 }
 
 /**
@@ -149,19 +153,16 @@ void Analyzer::checkForReal() {
 	if (hasOne) {
 		if (checkByStaticString(".", true)) {
 			level = 0;
-			unsigned int subLevel = 0;
-			while (checkByExpression("1|2|3|4|5|6|7|8|9", true)) {
-				if (++level > Analyzer::MAX_NESTED_LEVEL) throw new Exception("Max nested level, after point, exclude '0', is reached", currentPosition);
+			while (checkByExpression("0|1|2|3|4|5|6|7|8|9", true)) {
+				if (++level > Analyzer::MAX_NESTED_LEVEL) throw new Exception("Max nested level, after point, after '0', is reached", currentPosition);
 			}
-			level = 0;
-			while (checkByStaticString("0", true)) {
-				subLevel = 0;
-				while (checkByExpression("1|2|3|4|5|6|7|8|9", true)) {
-					if (++subLevel > Analyzer::MAX_NESTED_LEVEL) throw new Exception("Max nested level, after point, after '0', is reached", currentPosition);
-				}
-				if (++level > Analyzer::MAX_NESTED_LEVEL) throw new Exception("Max nested level, after point, is reached", currentPosition);
+			seek(-1);
+			if (checkByStaticString("0", true)) {
+				level = 0;
+			} else {
+				seek();
 			}
-			if (level == 0 || subLevel == 0) {
+			if (level == 0) {
 				checkByExpression("1|2|3|4|5|6|7|8|9");
 			}
 		}
