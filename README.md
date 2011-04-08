@@ -17,6 +17,7 @@ Static analyzer for Diffusion Equation
 	g++ -static-libstdc++ -static-libgcc -o dists\out.exe base\ExceptionWin.cpp main.cpp models\Analyzer.cpp models\ColoringWin.cpp models\Diff.cpp
 
 1.4. Arm (libs build in):
+     See this http://android-dls.com/wiki/index.php?title=Compiling_for_Android
 
 	arm-linux-gnueabi-g++ -static-libgcc -o dists/out_arm base/Exception.cpp main.cpp models/Analyzer.cpp models/Coloring.cpp models/Diff.cpp
 
@@ -28,8 +29,6 @@ Static analyzer for Diffusion Equation
 Difference between 1.2 and 1.3 is: 1.2 - worked only on windows, where installed MinGW, and 1.3 worked on any compatible windows system (libraries build in binary file)
 
 The binary file is in "out"
-\\ 1. Compilation
---------------
 
 
 2. Debug
